@@ -1,0 +1,39 @@
+{
+	"name": "fstime",
+	"version": "0.0.1",
+	"description": ".",
+	"keywords": [
+		"nanoseconds"
+	],
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/l0gd0g/fstime.git"
+	},
+	"author": {
+		"name": "Maxim Jarusov",
+		"email": "maxim.jarusov@gmail.com"
+	},
+	"licenses": [
+		{
+			"type": "MIT",
+			"url": "http://www.opensource.org/licenses/MIT"
+		}
+	],
+	"main": "./lib/index",
+	"engines": {
+		"node": ">= 0.4.0"
+	},
+	"scripts": {
+		"install": "node-gyp rebuild",
+		"test": "node test/test.js"
+	},
+	"readme": "",
+	"readmeFilename": "README.md",
+	"maintainers": [
+		{
+			"name": "Maxim",
+			"email": "maxim.jarusov@gmail.com"
+		}
+	],
+	"homepage": "https://github.com/l0gd0g/fstime"
+}
