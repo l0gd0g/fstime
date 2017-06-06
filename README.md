@@ -1,12 +1,8 @@
-# passport-ucoz
+# fstime
 
 ## Install
 
     $ npm install fstime
-
-#### Authenticate Requests
-
-
 
 ## Examples
 
@@ -38,4 +34,4 @@
 
 [The MIT License](http://opensource.org/licenses/MIT)
 
-Copyright (c) 2015 Maxim Jarusov
+Copyright (c) 2017 Maxim Jarusov
