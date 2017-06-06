@@ -8,7 +8,10 @@
 	},
 	"description": ".",
 	"keywords": [
-		"nanoseconds"
+		"nanoseconds",
+		"microseconds",
+		"file set time",
+		"linux file time"
 	],
 	"repository": {
 		"type": "git",
