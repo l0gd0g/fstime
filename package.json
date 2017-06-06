@@ -1,6 +1,11 @@
 {
 	"name": "fstime",
 	"version": "0.0.1",
+	"dependencies": {
+	},
+	"devDependencies": {
+		"mocha": "2.3.4"
+	},
 	"description": ".",
 	"keywords": [
 		"nanoseconds"
@@ -21,11 +26,11 @@
 	],
 	"main": "./lib/index",
 	"engines": {
-		"node": ">= 0.4.0"
+		"node": ">= 4.2.2"
 	},
 	"scripts": {
-		"install": "node-gyp rebuild",
-		"test": "node test/test.js"
+		"install": "node-gyp build",
+		"test": "mocha"
 	},
 	"readme": "",
 	"readmeFilename": "README.md",

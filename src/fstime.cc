@@ -31,10 +31,10 @@ using v8::Value;
 void statsSync(const FunctionCallbackInfo<Value>& args) {
 	Isolate* isolate = Isolate::GetCurrent();
 	HandleScope scope(isolate);
-
+	
 	struct stat sb;
 	char *fileName;
-
+	
 	v8::String::Utf8Value str(args[0]->ToString());
 	fileName = *str;
 	
@@ -43,10 +43,9 @@ void statsSync(const FunctionCallbackInfo<Value>& args) {
 		isolate->ThrowException(Exception::TypeError(String::NewFromUtf8(isolate, "Wrong file stat")));
 		return;
 	}
-
+	
 	Local<Object> obj = Object::New(isolate);
-//	obj->Set(String::NewFromUtf8(isolate, "atime_str"), String::NewFromUtf8( isolate, ctime(sb.st_atime) ));
-
+	
 	obj->Set(String::NewFromUtf8(isolate, "dev"), Integer::New( isolate, sb.st_dev ));
 	obj->Set(String::NewFromUtf8(isolate, "mode"), Integer::New( isolate, sb.st_mode ));
 	obj->Set(String::NewFromUtf8(isolate, "nlink"), Integer::New( isolate, sb.st_nlink ));
@@ -57,13 +56,11 @@ void statsSync(const FunctionCallbackInfo<Value>& args) {
 	obj->Set(String::NewFromUtf8(isolate, "ino"), Integer::New( isolate, sb.st_ino ));
 	obj->Set(String::NewFromUtf8(isolate, "size"), Integer::New( isolate, sb.st_size ));
 	obj->Set(String::NewFromUtf8(isolate, "blocks"), Integer::New( isolate, sb.st_blocks ));
-
-
+	
+	
 	obj->Set(String::NewFromUtf8(isolate, "atime_sec"), Integer::New( isolate, sb.st_atim.tv_sec ));
-	obj->Set(String::NewFromUtf8(isolate, "atime_msec"), Integer::New( isolate, round(sb.st_atim.tv_nsec / 1.0e6)));
 	obj->Set(String::NewFromUtf8(isolate, "atime_nsec"), Integer::New( isolate, sb.st_atim.tv_nsec ));
 	
-	obj->Set(String::NewFromUtf8(isolate, "mtime"), Integer::New( isolate, sb.st_mtime ));
 	obj->Set(String::NewFromUtf8(isolate, "mtime_sec"), Integer::New( isolate, sb.st_mtim.tv_sec ));
 	obj->Set(String::NewFromUtf8(isolate, "mtime_nsec"), Integer::New( isolate, sb.st_mtim.tv_nsec ));
 
@@ -73,31 +70,29 @@ void statsSync(const FunctionCallbackInfo<Value>& args) {
 	args.GetReturnValue().Set(obj);
 }
 
-//(path, atime, mtime, cb)
 void utimesSync(const FunctionCallbackInfo<Value>& args){
 	Isolate* isolate = Isolate::GetCurrent();
 	HandleScope scope(isolate);
-
+	
 	char *fileName;
 	v8::String::Utf8Value str(args[0]->ToString());
 	fileName = *str;
-
+	
 	struct stat sb;
 	
 	if (lstat(fileName, &sb)  == -1) {
 		isolate->ThrowException(Exception::TypeError(String::NewFromUtf8(isolate, "Wrong file stat")));
 		return;
 	}
-
-
+	
+	
 	struct timespec ts[2];
-	//	ts[0] = sb.st_atim;
 	ts[0].tv_sec = args[1]->NumberValue();//atime
-	ts[0].tv_nsec = args[2]->NumberValue();//atime
+	ts[0].tv_nsec = args[2]->NumberValue();//atime nano part
 	ts[1].tv_sec = args[3]->NumberValue();//mtime
-	ts[1].tv_nsec = args[4]->NumberValue();//mtime
-
-
+	ts[1].tv_nsec = args[4]->NumberValue();//mtime nano part
+	
+	
 	if (utimensat(AT_FDCWD, fileName, ts, AT_SYMLINK_NOFOLLOW) < 0) {  // This updates Change timestamp!
 		isolate->ThrowException(Exception::TypeError(String::NewFromUtf8(isolate, strerror(errno))));
 	}
