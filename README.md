@@ -1,8 +1,8 @@
 # fstime
 
 ## Install
-
-    $ npm install fstime
+	$ npm install -g node-gyp
+	$ npm install fstime
 
 ## Examples
 
@@ -24,7 +24,7 @@
 ## Tests
 
 	$ npm install
-	$ npm test
+	$ mocha
 
 ## Credits
 

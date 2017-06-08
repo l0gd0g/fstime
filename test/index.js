@@ -36,4 +36,12 @@ describe('Set and read time modify and time access for file', function () {
 		fs.unlinkSync(pathToFile);
 	});
 	
+	it('#if file not exist', function () {
+		try {
+			fstime.utimesSync('notExistFile.txt', statsSet.atime, statsSet.mtime);
+		} catch (err) {
+			assert.ok(1);
+		}
+	});
+	
 });

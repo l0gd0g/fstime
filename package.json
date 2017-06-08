@@ -1,47 +1,45 @@
 {
-	"name": "fstime",
-	"version": "1.0.0",
-	"dependencies": {
-	},
-	"devDependencies": {
-		"mocha": "2.3.4"
-	},
-	"description": ".",
-	"keywords": [
-		"nanoseconds",
-		"microseconds",
-		"file set time",
-		"linux file time"
-	],
-	"repository": {
-		"type": "git",
-		"url": "git://github.com/l0gd0g/fstime.git"
-	},
-	"author": {
-		"name": "Maxim Jarusov",
-		"email": "maxim.jarusov@gmail.com"
-	},
-	"licenses": [
-		{
-			"type": "MIT",
-			"url": "http://www.opensource.org/licenses/MIT"
-		}
-	],
-	"main": "./lib/index",
-	"engines": {
-		"node": ">= 4.2.2"
-	},
-	"scripts": {
-		"install": "node-gyp build",
-		"test": "mocha"
-	},
-	"readme": "",
-	"readmeFilename": "README.md",
-	"maintainers": [
-		{
-			"name": "Maxim",
-			"email": "maxim.jarusov@gmail.com"
-		}
-	],
-	"homepage": "https://github.com/l0gd0g/fstime"
+  "name": "fstime",
+  "version": "1.0.6",
+  "dependencies": {
+  },
+  "devDependencies": {
+  },
+  "description": ".",
+  "keywords": [
+    "nanoseconds",
+    "microseconds",
+    "file set time",
+    "linux file time"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/l0gd0g/fstime.git"
+  },
+  "author": "Maxim Jarusov <maxim.jarusov@gmail.com>",
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://www.opensource.org/licenses/MIT"
+    }
+  ],
+  "main": "./lib/index",
+  "engines": {
+    "node": ">= 4.2.2"
+  },
+  "scripts": {
+    "install": "node-gyp rebuild",
+    "test": "mocha"
+  },
+  "maintainers": [
+    "Maxim <maxim.jarusov@gmail.com>"
+  ],
+  "homepage": "https://github.com/l0gd0g/fstime",
+  "bugs": {
+    "url": "https://github.com/l0gd0g/fstime/issues"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "license": "ISC"
 }
