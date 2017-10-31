@@ -2,7 +2,7 @@
 
 const assert = require('assert');
 const fs = require('fs');
-const fstime = require('fstime');
+const fstime = require('../lib');
 
 
 describe('Set and read time modify and time access for file', function () {
