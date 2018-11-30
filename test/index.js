@@ -31,11 +31,12 @@ describe('Set and read time modify and time access for file', function() {
     fs.unlinkSync(pathToFile);
   });
 
-  it('#if file not exist', function() {
+  it('should throw error if file not exist', function() {
     try {
       fstime.utimesSync('notExistFile.txt', statsSet.atime, statsSet.mtime);
     } catch (err) {
-      assert.ok(1);
+      assert(err.name === 'TypeError');
+      assert(err.message === 'Wrong file stat: notExistFile.txt');
     }
   });
 });
