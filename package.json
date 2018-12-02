@@ -43,7 +43,7 @@
   },
   "gypfile": true,
   "engines": {
-    "node": ">= 4.2.2"
+    "node": ">=8.7.0"
   },
   "lint-staged": {
     "*.js": [
