@@ -1,45 +1,54 @@
 {
   "name": "fstime",
   "version": "1.0.7",
-  "dependencies": {
+  "description": "Get and set file stats on linux with nanoseconds resolution",
+  "author": "Maxim Jarusov <maxim.jarusov@gmail.com>",
+  "maintainers": [
+    "Maxim <maxim.jarusov@gmail.com>",
+    "CheerlessCloud <nnsceg@gmail.com>"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/l0gd0g/fstime.git"
   },
-  "devDependencies": {
+  "homepage": "https://github.com/l0gd0g/fstime",
+  "bugs": {
+    "url": "https://github.com/l0gd0g/fstime/issues"
   },
-  "description": ".",
   "keywords": [
     "nanoseconds",
     "microseconds",
     "file set time",
     "linux file time"
   ],
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/l0gd0g/fstime.git"
-  },
-  "author": "Maxim Jarusov <maxim.jarusov@gmail.com>",
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "http://www.opensource.org/licenses/MIT"
-    }
-  ],
+  "license": "MIT",
   "main": "./lib/index",
-  "engines": {
-    "node": ">= 4.2.2"
-  },
   "scripts": {
     "install": "node-gyp rebuild",
-    "test": "mocha"
+    "test": "mocha --exit"
   },
-  "maintainers": [
-    "Maxim <maxim.jarusov@gmail.com>"
-  ],
-  "homepage": "https://github.com/l0gd0g/fstime",
-  "bugs": {
-    "url": "https://github.com/l0gd0g/fstime/issues"
+  "dependencies": {
+    "nan": "^2.10.0"
   },
-  "directories": {
-    "test": "test"
+  "devDependencies": {
+    "eslint": "^5.9.0",
+    "husky": "^1.2.0",
+    "lint-staged": "^8.1.0",
+    "mocha": "^5.2.0"
   },
-  "license": "ISC"
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "gypfile": true,
+  "engines": {
+    "node": ">=8.7.0"
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint --fix",
+      "git add"
+    ]
+  }
 }
