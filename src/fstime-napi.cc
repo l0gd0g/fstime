@@ -5,8 +5,6 @@
 
 #include <node_api.h>
 
-#include <stdio.h>
-
 napi_status setProperty(napi_env env, napi_value& stats, const char* name, int64_t value) {
     napi_value val;
     napi_status status = napi_create_int64(env, value, &val);
