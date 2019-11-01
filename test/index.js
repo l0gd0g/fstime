@@ -9,7 +9,7 @@ let time = new Date().getTime();
 const ctx = {
   pathToFile: 'testFile.tmp',
   statsSet: {
-    atime: time, // or change on '.123456'
+    atime: `${time}.123456`,
     mtime: `${time}.493406`, // -> 1496671445880.493406
   },
 };

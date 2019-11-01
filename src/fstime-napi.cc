@@ -33,7 +33,7 @@ napi_value StatsSync(napi_env env, napi_callback_info args) {
 
     struct stat sb;
     if (lstat(fileName, &sb) == -1) {
-        napi_throw_error(env, "1", "Wrong file stat");
+        napi_throw_type_error(env, NULL, "Wrong file stat");
         return NULL;
     }
 
@@ -82,7 +82,7 @@ napi_value UtimesSync(napi_env env, napi_callback_info args) {
 
     struct stat sb;
     if (lstat(fileName, &sb) == -1) {
-        napi_throw_error(env, "1", "Wrong file stat");
+        napi_throw_type_error(env, NULL, "Wrong file stat");
         return NULL;
     }
 
@@ -98,7 +98,7 @@ napi_value UtimesSync(napi_env env, napi_callback_info args) {
 
     // This updates Change timestamp!
     if (utimensat(AT_FDCWD, fileName, ts, AT_SYMLINK_NOFOLLOW) < 0) {
-        napi_throw_error(env, "1", "Error on changing time");
+        napi_throw_type_error(env, NULL, "Error on changing time");
         return NULL;
     }
     return NULL;
