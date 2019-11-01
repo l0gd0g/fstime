@@ -4,7 +4,7 @@
       "target_name": "fstime",
       "conditions":[
       	["OS=='linux'", {
-      	  "sources": [ "src/fstime.cc" ]
+      	  "sources": [ "src/fstime-napi.cc" ]
         }],
       ], 
       "include_dirs": [
