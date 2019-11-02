@@ -5,30 +5,46 @@
 
 #include <node_api.h>
 
+napi_status status;
+
 napi_status setProperty(napi_env env, napi_value& stats, const char* name, int64_t value) {
     napi_value val;
-    napi_status status = napi_create_int64(env, value, &val);
-    if (status != napi_ok) return status;
+    status = napi_create_int64(env, value, &val);
+    if (status != napi_ok) {
+        napi_throw_type_error(env, NULL, "Error on transforming Number");
+        return status;
+    }
     status = napi_set_named_property(env, stats, name, val);
+    if (status != napi_ok) {
+        napi_throw_type_error(env, NULL, "Error on setting Number to stats");
+    }
     return status;
 }
 
 napi_value StatSync(napi_env env, napi_callback_info args) {
     size_t argc = 1;
     napi_value argv[1];
-    napi_status status = napi_get_cb_info(env, args, &argc, argv, NULL, NULL);
-    if (status != napi_ok) return NULL;
+    status = napi_get_cb_info(env, args, &argc, argv, NULL, NULL);
+    if (status != napi_ok) {
+        napi_throw_error(env, NULL, "Error on getting arguments");
+        return NULL;
+    }
     napi_value napi_fileName = argv[0];
 
     size_t fileNameSize;
     status = napi_get_value_string_utf8(env, napi_fileName, NULL, NAPI_AUTO_LENGTH, &fileNameSize);
-    if (status != napi_ok) return NULL;
+    if (status != napi_ok) {
+        napi_throw_type_error(env, NULL, "Path must be string value");
+        return NULL;
+    }
     fileNameSize += 1;
 
     char fileName[fileNameSize];
     status = napi_get_value_string_utf8(env, napi_fileName, fileName, fileNameSize, NULL);
-    if (status != napi_ok) return NULL;
-
+    if (status != napi_ok) {
+        napi_throw_type_error(env, NULL, "Path must be string value");
+        return NULL;
+    }
     struct stat sb;
     if (lstat(fileName, &sb) == -1) {
         napi_throw_type_error(env, NULL, "Wrong file stat");
@@ -37,7 +53,10 @@ napi_value StatSync(napi_env env, napi_callback_info args) {
 
     napi_value stats;
     status = napi_create_object(env, &stats);
-    if (status != napi_ok) return NULL;
+    if (status != napi_ok) {
+        napi_throw_error(env, NULL, "Error on creating object stats");
+        return NULL;
+    }
 
     if (setProperty(env, stats, "dev", sb.st_dev) != napi_ok) return NULL;
     if (setProperty(env, stats, "mode", sb.st_mode) != napi_ok) return NULL;
@@ -65,18 +84,27 @@ napi_value StatSync(napi_env env, napi_callback_info args) {
 napi_value UtimesSync(napi_env env, napi_callback_info args) {
     size_t argc = 5;
     napi_value argv[5];
-    napi_status status = napi_get_cb_info(env, args, &argc, argv, NULL, NULL);
-    if (status != napi_ok) return NULL;
+    status = napi_get_cb_info(env, args, &argc, argv, NULL, NULL);
+    if (status != napi_ok) {
+        napi_throw_error(env, NULL, "Error on getting arguments");
+        return NULL;
+    }
     napi_value napi_fileName = argv[0];
 
     size_t fileNameSize;
     status = napi_get_value_string_utf8(env, napi_fileName, NULL, NAPI_AUTO_LENGTH, &fileNameSize);
-    if (status != napi_ok) return NULL;
+    if (status != napi_ok) {
+        napi_throw_type_error(env, NULL, "Path must be string value");
+        return NULL;
+    }
     fileNameSize += 1;
 
     char fileName[fileNameSize];
     status = napi_get_value_string_utf8(env, napi_fileName, fileName, fileNameSize, NULL);
-    if (status != napi_ok) return NULL;
+    if (status != napi_ok) {
+        napi_throw_type_error(env, NULL, "Path must be string value");
+        return NULL;
+    }
 
     struct stat sb;
     if (lstat(fileName, &sb) == -1) {
@@ -86,15 +114,26 @@ napi_value UtimesSync(napi_env env, napi_callback_info args) {
 
     struct timespec ts[2];
     status = napi_get_value_int64(env, argv[1], &ts[0].tv_sec);
-    if (status != napi_ok) return NULL;
+    if (status != napi_ok) {
+        napi_throw_type_error(env, NULL, "Error on transforming Number");
+        return NULL;
+    }
     status = napi_get_value_int64(env, argv[2], &ts[0].tv_nsec);
-    if (status != napi_ok) return NULL;
+    if (status != napi_ok) {
+        napi_throw_type_error(env, NULL, "Error on transforming Number");
+        return NULL;
+    }
     status = napi_get_value_int64(env, argv[3], &ts[1].tv_sec);
-    if (status != napi_ok) return NULL;
+    if (status != napi_ok) {
+        napi_throw_type_error(env, NULL, "Error on transforming Number");
+        return NULL;
+    }
     status = napi_get_value_int64(env, argv[4], &ts[1].tv_nsec);
-    if (status != napi_ok) return NULL;
+    if (status != napi_ok) {
+        napi_throw_type_error(env, NULL, "Error on transforming Number");
+        return NULL;
+    }
 
-    // This updates Change timestamp!
     if (utimensat(AT_FDCWD, fileName, ts, AT_SYMLINK_NOFOLLOW) < 0) {
         napi_throw_type_error(env, NULL, "Error on changing time");
         return NULL;
@@ -104,17 +143,28 @@ napi_value UtimesSync(napi_env env, napi_callback_info args) {
 
 napi_value init(napi_env env, napi_value exports) {
     napi_value statSync;
-    napi_status status = napi_create_function(env, NULL, 0, StatSync, NULL, &statSync);
-    if (status != napi_ok) return NULL;
+    status = napi_create_function(env, NULL, 0, StatSync, NULL, &statSync);
+    if (status != napi_ok) {
+        napi_throw_error(env, NULL, "Error on creating function");
+        return NULL;
+    }
     status = napi_set_named_property(env, exports, "statSync", statSync);
-    if (status != napi_ok) return NULL;
+    if (status != napi_ok) {
+        napi_throw_error(env, NULL, "Error on setting function");
+        return NULL;
+    }
 
     napi_value utimesSync;
     status = napi_create_function(env, NULL, 0, UtimesSync, NULL, &utimesSync);
-    if (status != napi_ok) return NULL;
+    if (status != napi_ok) {
+        napi_throw_error(env, NULL, "Error on creating function");
+        return NULL;
+    }
     status = napi_set_named_property(env, exports, "utimesSync", utimesSync);
-    if (status != napi_ok) return NULL;
-
+    if (status != napi_ok) {
+        napi_throw_error(env, NULL, "Error on setting function");
+        return NULL;
+    }
     return exports;
 }
 
