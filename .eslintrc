@@ -8,12 +8,10 @@
   },
   "overrides": [
     {
-      "files": "test/**/*.js",
-      "rules": {
-        "no-console": "off"
-      },
+      "files": "__tests__/**/*.js",
+      "plugins": ["jest"],
       "env": {
-        "mocha": true
+        "jest": true
       }
     }
   ]

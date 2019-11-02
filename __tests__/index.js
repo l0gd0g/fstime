@@ -1,6 +1,3 @@
-'use strict';
-
-const assert = require('assert');
 const fs = require('fs');
 const os = require('os');
 const fstime = require('../lib');
@@ -17,7 +14,7 @@ const ctx = {
 const describeOnlyOnLinux = os.platform() === 'linux' ? describe : describe.skip;
 
 describeOnlyOnLinux('Set and read time modify and time access for file', () => {
-  before(() => {
+  beforeAll(() => {
     fs.writeFileSync(ctx.pathToFile, 'example text...');
   });
 
@@ -28,13 +25,13 @@ describeOnlyOnLinux('Set and read time modify and time access for file', () => {
   it('#read stats file', () => {
     let statsGet = fstime.statSync(ctx.pathToFile);
 
-    assert.deepStrictEqual(ctx.statsSet, {
+    expect(ctx.statsSet).toEqual({
       atime: `${statsGet.atime}`,
       mtime: statsGet.mtime,
     });
   });
 
-  after(() => {
+  afterAll(() => {
     fs.unlinkSync(ctx.pathToFile);
   });
 });
@@ -43,7 +40,7 @@ it('should throw error if file not exist', () => {
   try {
     fstime.utimesSync('notExistFile.txt', ctx.statsSet.atime, ctx.statsSet.mtime);
   } catch (err) {
-    assert(err.name === 'TypeError');
-    assert(err.message === 'Wrong file stat: notExistFile.txt');
+    expect(err.name).toBe('TypeError');
+    expect(err.message).toBe('Wrong file stat: notExistFile.txt');
   }
 });
