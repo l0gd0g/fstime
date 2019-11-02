@@ -13,7 +13,7 @@ napi_status setProperty(napi_env env, napi_value& stats, const char* name, int64
     return status;
 }
 
-napi_value StatsSync(napi_env env, napi_callback_info args) {
+napi_value StatSync(napi_env env, napi_callback_info args) {
     size_t argc = 1;
     napi_value argv[1];
     napi_status status = napi_get_cb_info(env, args, &argc, argv, NULL, NULL);
@@ -103,10 +103,10 @@ napi_value UtimesSync(napi_env env, napi_callback_info args) {
 }
 
 napi_value init(napi_env env, napi_value exports) {
-    napi_value statsSync;
-    napi_status status = napi_create_function(env, NULL, 0, StatsSync, NULL, &statsSync);
+    napi_value statSync;
+    napi_status status = napi_create_function(env, NULL, 0, StatSync, NULL, &statSync);
     if (status != napi_ok) return NULL;
-    status = napi_set_named_property(env, exports, "statsSync", statsSync);
+    status = napi_set_named_property(env, exports, "statSync", statSync);
     if (status != napi_ok) return NULL;
 
     napi_value utimesSync;
