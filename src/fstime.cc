@@ -5,11 +5,9 @@
 
 #include <node_api.h>
 
-napi_status status;
-
 napi_status setProperty(napi_env env, napi_value& stats, const char* name, int64_t value) {
     napi_value val;
-    status = napi_create_int64(env, value, &val);
+    napi_status status = napi_create_int64(env, value, &val);
     if (status != napi_ok) {
         napi_throw_type_error(env, NULL, "Error on transforming Number");
         return status;
@@ -24,7 +22,7 @@ napi_status setProperty(napi_env env, napi_value& stats, const char* name, int64
 napi_value StatSync(napi_env env, napi_callback_info args) {
     size_t argc = 1;
     napi_value argv[1];
-    status = napi_get_cb_info(env, args, &argc, argv, NULL, NULL);
+    napi_status status = napi_get_cb_info(env, args, &argc, argv, NULL, NULL);
     if (status != napi_ok) {
         napi_throw_error(env, NULL, "Error on getting arguments");
         return NULL;
@@ -84,7 +82,7 @@ napi_value StatSync(napi_env env, napi_callback_info args) {
 napi_value UtimesSync(napi_env env, napi_callback_info args) {
     size_t argc = 5;
     napi_value argv[5];
-    status = napi_get_cb_info(env, args, &argc, argv, NULL, NULL);
+    napi_status status = napi_get_cb_info(env, args, &argc, argv, NULL, NULL);
     if (status != napi_ok) {
         napi_throw_error(env, NULL, "Error on getting arguments");
         return NULL;
@@ -143,7 +141,7 @@ napi_value UtimesSync(napi_env env, napi_callback_info args) {
 
 napi_value init(napi_env env, napi_value exports) {
     napi_value statSync;
-    status = napi_create_function(env, NULL, 0, StatSync, NULL, &statSync);
+    napi_status status = napi_create_function(env, NULL, 0, StatSync, NULL, &statSync);
     if (status != napi_ok) {
         napi_throw_error(env, NULL, "Error on creating function");
         return NULL;
