@@ -24,7 +24,7 @@
 ## Tests
 
 	$ npm install
-	$ mocha
+	$ jest
 
 ## Credits
 
