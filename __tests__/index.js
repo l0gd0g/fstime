@@ -54,7 +54,7 @@ describe('fstime', () => {
         let statsGet = fstime.statSync(ctx.pathToFile);
 
         expect(ctx.statsSet).toEqual({
-          atime: `${statsGet.atime}`,
+          atime: statsGet.atime,
           mtime: statsGet.mtime,
         });
       });
@@ -77,7 +77,7 @@ describe('fstime', () => {
         let statsGet = fstime.statSync(ctx.cyrillicPathToFile);
 
         expect(ctx.statsSet).toEqual({
-          atime: `${statsGet.atime}`,
+          atime: statsGet.atime,
           mtime: statsGet.mtime,
         });
       });
